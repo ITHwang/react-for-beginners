@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
 import Movie from '../components/Movie';
-import useInput from '../hooks/useInput';
+import IdInput from '../components/IdInput';
+import PwInput from '../components/PwInput';
 
 const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [movies, setMovies] = useState([]);
-
-	const maxLen = (value) => value.length <= 10;
-	const id = useInput('', maxLen);
-	const pw = useInput('', maxLen);
 
 	const getMovies = async () => {
 		const response = await fetch(
@@ -20,6 +17,7 @@ const Home = () => {
 	};
 
 	useEffect(() => getMovies(), []);
+
 	return (
 		<div>
 			{loading ? (
@@ -27,8 +25,8 @@ const Home = () => {
 			) : (
 				<div>
 					<h1>Movie List</h1>
-					<input placeholder='ID' {...id} />
-					<input type='password' placeholder='PW' {...pw} />
+					<IdInput placeholder='ID' />
+					<PwInput type='password' placeholder='PW' />
 					<hr />
 					<div>
 						{movies.map((movie) => (
