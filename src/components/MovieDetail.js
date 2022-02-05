@@ -3,8 +3,8 @@ import useTabs from '../hooks/useTabs';
 import { useState, useEffect } from 'react';
 
 const MovieDetail = ({ movie }) => {
-	const [loading, setLoading] = useState(true);
 	const [movieDetail, setMovieDetail] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const { currentTab, changeTab } = useTabs(0, movieDetail);
 
 	const getMovieDetail = (movie) => {
@@ -26,14 +26,12 @@ const MovieDetail = ({ movie }) => {
 
 	useEffect(() => {
 		setMovieDetail(getMovieDetail(movie));
-		setLoading(false);
+		setLoading(false); //virtual dom을 이용해 부분적으로 렌더링하므로 loading을 통해 전체적으로 렌더링 해주기
 	}, []);
 
 	return (
 		<div>
-			{loading ? (
-				<h1>wait...</h1>
-			) : (
+			{loading ? null : (
 				<div>
 					<div>
 						{movieDetail.map((section, index) => (

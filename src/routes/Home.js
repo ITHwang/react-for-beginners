@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useTitle from '../hooks/useTitle';
 import Movie from '../components/Movie';
 import IdInput from '../components/IdInput';
 import PwInput from '../components/PwInput';
@@ -6,6 +7,7 @@ import PwInput from '../components/PwInput';
 const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [movies, setMovies] = useState([]);
+	const changeTitle = useTitle('loading...');
 
 	const getMovies = async () => {
 		const response = await fetch(
@@ -13,10 +15,15 @@ const Home = () => {
 		);
 		const json = await response.json();
 		setMovies(json.data.movies);
-		setLoading(false);
+		return Promise.resolve();
 	};
 
-	useEffect(() => getMovies(), []);
+	useEffect(() => {
+		getMovies().then(() => {
+			changeTitle('Home');
+			setLoading(false);
+		});
+	}, []);
 
 	return (
 		<div>
