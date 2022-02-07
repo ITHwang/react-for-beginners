@@ -1,48 +1,47 @@
 import PropTypes from 'prop-types';
 import useTabs from '../hooks/useTabs';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import useClick from '../hooks/useClick';
+
+const getMovieDetail = (movie) => {
+	return [
+		{
+			tab: 'story',
+			content: movie.description_full,
+		},
+		{
+			tab: 'rating',
+			content: movie.rating,
+		},
+		{
+			tab: 'url',
+			content: movie.url,
+		},
+	];
+};
 
 const MovieDetail = ({ movie }) => {
-	const [movieDetail, setMovieDetail] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [movieDetail, setMovieDetail] = useState(getMovieDetail(movie));
 	const { currentTab, changeTab } = useTabs(0, movieDetail);
 
-	const getMovieDetail = (movie) => {
-		return [
-			{
-				tab: 'story',
-				content: movie.description_full,
-			},
-			{
-				tab: 'rating',
-				content: movie.rating,
-			},
-			{
-				tab: 'url',
-				content: movie.url,
-			},
-		];
-	};
-
-	useEffect(() => {
-		setMovieDetail(getMovieDetail(movie));
-		setLoading(false); //virtual dom을 이용해 부분적으로 렌더링하므로 loading을 통해 전체적으로 렌더링 해주기
-	}, []);
+	const toggle = useClick((e) => {
+		const content = e.target.parentNode.querySelector('div.movie-detail');
+		content.hidden = !content.hidden;
+	});
 
 	return (
 		<div>
-			{loading ? null : (
+			<button ref={toggle}>toggle</button>
+			<div className='movie-detail'>
 				<div>
-					<div>
-						{movieDetail.map((section, index) => (
-							<button key={index} onClick={() => changeTab(index)}>
-								{section.tab}
-							</button>
-						))}
-					</div>
-					<div>{currentTab.content}</div>
+					{movieDetail.map((section, index) => (
+						<button key={index} onClick={() => changeTab(index)}>
+							{section.tab}
+						</button>
+					))}
 				</div>
-			)}
+				<div>{currentTab.content}</div>
+			</div>
 		</div>
 	);
 };
