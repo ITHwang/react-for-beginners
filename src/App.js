@@ -2,10 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import Detail from './routes/Detail';
 
-import { usePreventLeave } from './hooks/usePreventLeave';
-
 const App = () => {
 	return (
+		// <div className='App'>
+		// 	<h1>Hello</h1>
+		// </div>
 		<Router>
 			<Routes>
 				<Route path='/' element={<Home />} />
