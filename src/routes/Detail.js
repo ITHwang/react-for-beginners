@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 import MovieDetail from '../components/MovieDetail';
+import { usePreventLeave } from '../hooks/usePreventLeave';
 
 const Detail = () => {
 	const { id } = useParams();
@@ -19,7 +20,9 @@ const Detail = () => {
 		return Promise.resolve();
 	};
 
+	const { enablePrevent, disablePrevent } = usePreventLeave();
 	useEffect(() => {
+		enablePrevent();
 		getMovie().then(() => {
 			setLoading(false);
 			changeTitle('Detail of movie');
