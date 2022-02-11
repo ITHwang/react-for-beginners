@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 import MovieDetail from '../components/MovieDetail';
 import { usePreventLeave } from '../hooks/usePreventLeave';
+import { element } from 'prop-types';
+
+import { useFadeIn } from 'react';
 
 const Detail = () => {
 	const { id } = useParams();
@@ -20,6 +23,10 @@ const Detail = () => {
 		return Promise.resolve();
 	};
 
+	const imgRef = useRef();
+	const duration = 2;
+	const delay = 1;
+
 	const { enablePrevent, disablePrevent } = usePreventLeave();
 	useEffect(() => {
 		enablePrevent();
@@ -29,6 +36,12 @@ const Detail = () => {
 		});
 	}, []);
 
+	useEffect(() => {
+		const { current } = imgRef;
+		current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+		current.style.opacity = 1;
+	});
+
 	return (
 		<div>
 			{loading ? (
@@ -36,7 +49,12 @@ const Detail = () => {
 			) : (
 				<div>
 					<h1>{movie.title_long}</h1>
-					<img src={movie.medium_cover_image} alt={movie.title} />
+					<img
+						src={movie.medium_cover_image}
+						alt={movie.title}
+						ref={imgRef}
+						style={{ opacity: 0 }}
+					/>
 					<MovieDetail movie={movie} />
 				</div>
 			)}

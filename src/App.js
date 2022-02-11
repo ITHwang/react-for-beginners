@@ -2,25 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import Detail from './routes/Detail';
 
-import { useEffect, useState, useRef } from 'react';
-
-// useFadeIn
-const useFadeIn = (duration = 1, delay = 0) => {
-	const element = useRef();
-
-	useEffect(() => {
-		if (typeof duration !== 'number' || typeof delay !== 'number') return;
-
-		if (element.current) {
-			const { current } = element;
-			current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
-			current.style.opacity = 1;
-		}
-	}, []);
-
-	return { ref: element, style: { opacity: 0 } };
-};
-
 // useNetwork
 // const useNetwork = (onChange) => {
 // 	const [status, setStatus] = useState(navigator.onLine);
@@ -49,22 +30,15 @@ const App = () => {
 	// };
 	// const onLine = useNetwork(handleNetworkChange);
 
-	// useFadeIn
-	const fadeInH1 = useFadeIn();
-	const fadeInP = useFadeIn();
-
 	return (
-		<div className='App'>
-			<h1 {...fadeInH1}>Hello</h1>
-			<p {...fadeInP}>dfdfddfdf</p>
-			{/* <h1>{onLine ? 'Online' : 'offline'}</h1> */}
-		</div>
-		// <Router>
-		// 	<Routes>
-		// 		<Route path='/' element={<Home />} />
-		// 		<Route path='/movie/:id' element={<Detail />} />
-		// 	</Routes>
-		// </Router>
+		// <div className='App'>
+		// </div>
+		<Router>
+			<Routes>
+				<Route path='/' element={<Home />} />
+				<Route path='/movie/:id' element={<Detail />} />
+			</Routes>
+		</Router>
 	);
 };
 
