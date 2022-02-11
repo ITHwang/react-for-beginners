@@ -3,9 +3,7 @@ import { useParams } from 'react-router-dom';
 import useTitle from '../hooks/useTitle';
 import MovieDetail from '../components/MovieDetail';
 import { usePreventLeave } from '../hooks/usePreventLeave';
-import { element } from 'prop-types';
-
-import { useFadeIn } from 'react';
+import { useFadeIn } from '../hooks/useFadeIn';
 
 const Detail = () => {
 	const { id } = useParams();
@@ -23,10 +21,6 @@ const Detail = () => {
 		return Promise.resolve();
 	};
 
-	const imgRef = useRef();
-	const duration = 2;
-	const delay = 1;
-
 	const { enablePrevent, disablePrevent } = usePreventLeave();
 	useEffect(() => {
 		enablePrevent();
@@ -36,11 +30,7 @@ const Detail = () => {
 		});
 	}, []);
 
-	useEffect(() => {
-		const { current } = imgRef;
-		current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
-		current.style.opacity = 1;
-	});
+	const fadeInImg = useFadeIn();
 
 	return (
 		<div>
@@ -52,8 +42,7 @@ const Detail = () => {
 					<img
 						src={movie.medium_cover_image}
 						alt={movie.title}
-						ref={imgRef}
-						style={{ opacity: 0 }}
+						{...fadeInImg}
 					/>
 					<MovieDetail movie={movie} />
 				</div>

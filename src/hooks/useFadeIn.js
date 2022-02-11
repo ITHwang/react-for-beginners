@@ -5,13 +5,12 @@ export const useFadeIn = (duration = 1, delay = 0) => {
 
 	useEffect(() => {
 		if (typeof duration !== 'number' || typeof delay !== 'number') return;
-
 		if (element.current) {
 			const { current } = element;
 			current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
 			current.style.opacity = 1;
 		}
-	}, []);
+	}, [element.current]);
 
 	return { ref: element, style: { opacity: 0 } };
 };
