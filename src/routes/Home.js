@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import useTitle from '../hooks/useTitle';
 import Movie from '../components/Movie';
-import IdInput from '../components/IdInput';
-import PwInput from '../components/PwInput';
+
+import { useScroll } from '../hooks/useScroll';
+import HomeHeaderUnscrolled from '../components/HomeHeaderUnscrolled';
+import HomeHeaderScrolled from '../components/HomeHeaderScrolled';
 
 const Home = () => {
 	const [loading, setLoading] = useState(true);
@@ -25,16 +27,15 @@ const Home = () => {
 		});
 	}, []);
 
+	const { y } = useScroll();
+
 	return (
 		<div>
 			{loading ? (
 				<h1>Loading...</h1>
 			) : (
 				<div>
-					<h1>Movie List</h1>
-					<IdInput placeholder='ID' />
-					<PwInput type='password' placeholder='PW' />
-					<hr />
+					{y < 400 ? <HomeHeaderUnscrolled /> : <HomeHeaderScrolled />}
 					<div>
 						{movies.map((movie) => (
 							<Movie
