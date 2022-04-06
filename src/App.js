@@ -14,13 +14,16 @@ const App = () => {
   const isOnline = useNetwork(handleNetworkChange);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movie/:id" element={<Detail />} />
-        <Route path="/offline" element={<Offline />} />
-      </Routes>
-    </Router>
+    <div className="App" style={{ height: "1000vh" }}>
+      <h1>Hello</h1>
+    </div>
+    // <Router>
+    //   <Routes>
+    //     <Route path="/" element={<Home />} />
+    //     <Route path="/movie/:id" element={<Detail />} />
+    //     <Route path="/offline" element={<Offline />} />
+    //   </Routes>
+    // </Router>
   );
 };
 
