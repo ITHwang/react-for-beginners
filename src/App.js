@@ -3,6 +3,7 @@ import Home from "./routes/Home";
 import Detail from "./routes/Detail";
 import { Offline } from "./routes/Offline";
 import { useNetwork } from "./hooks/useNetwork";
+import useAxios from "./hooks/useAxios";
 
 const App = () => {
   const handleNetworkChange = (isOnline) => {
@@ -13,9 +14,15 @@ const App = () => {
   };
   const isOnline = useNetwork(handleNetworkChange);
 
+  const { loading, data, error, refetch } = useAxios({
+    url: "https://yts.am/api/v2/list_movies.json",
+  });
+
   return (
     <div className="App" style={{ height: "1000vh" }}>
-      <h1>Hello</h1>
+      <h1>{data && data.status}</h1>
+      <h1>{loading ? "Loading" : "loaded"}</h1>
+      <button onClick={refetch}>refetch</button>
     </div>
     // <Router>
     //   <Routes>
